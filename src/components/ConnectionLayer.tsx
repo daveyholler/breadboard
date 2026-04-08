@@ -26,6 +26,7 @@ export function ConnectionLayer() {
       const canvas = svg.parentElement;
       if (!canvas) return;
 
+      const { zoom } = useBreadboardStore.getState();
       const canvasRect = canvas.getBoundingClientRect();
       const newConnections: Connection[] = [];
 
@@ -52,6 +53,12 @@ export function ConnectionLayer() {
             canvasRect,
             sourcePoint
           );
+          // getBoundingClientRect returns screen-space coords (post-transform),
+          // but the SVG is inside the transform div and needs pre-transform coords
+          sourcePoint.x /= zoom;
+          sourcePoint.y /= zoom;
+          targetPoint.x /= zoom;
+          targetPoint.y /= zoom;
 
           const path = getConnectionPath(sourcePoint, targetPoint);
           newConnections.push({ id: affordance.id, path });
@@ -83,13 +90,13 @@ export function ConnectionLayer() {
         <marker
           id="arrowhead"
           markerWidth="10"
-          markerHeight="7"
+          markerHeight="10"
           refX="10"
-          refY="3.5"
+          refY="5"
           orient="auto"
           markerUnits="strokeWidth"
         >
-          <polygon points="0 0, 10 3.5, 0 7" fill="var(--color-muted-foreground)" />
+          <polyline points="0 0, 10 5, 0 10" fill="none" stroke="var(--color-muted-foreground)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         </marker>
       </defs>
       {connections.map((conn) => (

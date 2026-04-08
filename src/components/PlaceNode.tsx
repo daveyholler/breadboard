@@ -41,7 +41,7 @@ export function PlaceNode({ place }: PlaceNodeProps) {
   return (
     <div
       data-place-id={place.id}
-      className={`absolute select-none bg-card text-card-foreground border-2 rounded-lg shadow-sm min-w-[140px] transition-[border-color,box-shadow] ${
+      className={`absolute select-none pointer-events-auto bg-card text-card-foreground border-2 rounded-lg shadow-sm min-w-[140px] transition-[border-color,box-shadow] ${
         isSelected
           ? "border-ring shadow-md"
           : "border-border hover:border-ring hover:shadow-md"

@@ -185,6 +185,7 @@ export function Canvas() {
           transformOrigin: "0 0",
           position: "absolute",
           inset: 0,
+          pointerEvents: "none",
         }}
       >
         <ConnectionLayer />
