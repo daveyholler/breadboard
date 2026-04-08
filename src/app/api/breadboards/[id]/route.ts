@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getBreadboard, updateBreadboard } from "@/lib/db";
+import { getBreadboard, updateBreadboard, deleteBreadboard } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
@@ -13,6 +13,15 @@ export async function GET(
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
   return NextResponse.json(breadboard);
+}
+
+export async function DELETE(
+  _request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
+  await deleteBreadboard(id);
+  return NextResponse.json({ success: true });
 }
 
 export async function PUT(

@@ -66,6 +66,14 @@ export async function createBreadboard(
   return { id, name };
 }
 
+export async function deleteBreadboard(id: string): Promise<void> {
+  await migrate();
+  await db.execute({
+    sql: "DELETE FROM breadboards WHERE id = ?",
+    args: [id],
+  });
+}
+
 export async function updateBreadboard(
   id: string,
   data: { places?: Place[]; name?: string }

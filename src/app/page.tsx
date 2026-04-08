@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { listBreadboards } from "@/lib/db";
 import { NewBreadboardButton } from "@/components/NewBreadboardButton";
+import { DeleteBreadboardDialog } from "@/components/DeleteBreadboardDialog";
+import { Button } from "@/components/ui/button";
+import { Trash2 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -34,23 +37,40 @@ export default async function HomePage() {
       ) : (
         <div className="space-y-2">
           {breadboards.map((b) => (
-            <Link
+            <div
               key={b.id}
-              href={`/b/${b.id}`}
-              className="block p-4 rounded-lg border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all"
+              className="flex items-center gap-2 p-4 rounded-lg border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all"
             >
-              <div className="flex items-center justify-between">
-                <span
-                  className="font-medium"
-                  style={{ fontFamily: "var(--font-funnel-display)" }}
-                >
-                  {b.name}
-                </span>
-                <span className="text-xs text-muted-foreground">
-                  {new Date(b.updated_at + "Z").toLocaleDateString()}
-                </span>
-              </div>
-            </Link>
+              <Link
+                href={`/b/${b.id}`}
+                className="flex-1 min-w-0"
+              >
+                <div className="flex items-center justify-between">
+                  <span
+                    className="font-medium truncate"
+                    style={{ fontFamily: "var(--font-funnel-display)" }}
+                  >
+                    {b.name}
+                  </span>
+                  <span className="text-xs text-muted-foreground shrink-0 ml-4">
+                    {new Date(b.updated_at + "Z").toLocaleDateString()}
+                  </span>
+                </div>
+              </Link>
+              <DeleteBreadboardDialog
+                breadboardId={b.id}
+                breadboardName={b.name}
+                trigger={
+                  <Button
+                    variant="ghost"
+                    size="icon-sm"
+                    className="text-muted-foreground hover:text-destructive shrink-0"
+                  >
+                    <Trash2 className="size-4" />
+                  </Button>
+                }
+              />
+            </div>
           ))}
         </div>
       )}

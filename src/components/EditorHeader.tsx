@@ -5,8 +5,11 @@ import Link from "next/link";
 import { useBreadboardStore } from "@/store/useBreadboardStore";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { DeleteBreadboardDialog } from "@/components/DeleteBreadboardDialog";
+import { Trash2 } from "lucide-react";
 
 export function EditorHeader() {
+  const breadboardId = useBreadboardStore((s) => s.breadboardId);
   const breadboardName = useBreadboardStore((s) => s.breadboardName);
   const updateBreadboardName = useBreadboardStore(
     (s) => s.updateBreadboardName
@@ -39,6 +42,21 @@ export function EditorHeader() {
       </div>
 
       <div className="flex items-center gap-2">
+        {breadboardId && (
+          <DeleteBreadboardDialog
+            breadboardId={breadboardId}
+            breadboardName={breadboardName}
+            trigger={
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                className="text-muted-foreground hover:text-destructive"
+              >
+                <Trash2 className="size-4" />
+              </Button>
+            }
+          />
+        )}
         <Button variant="outline" size="sm" onClick={handleShare}>
           {copied ? "Copied!" : "Share"}
         </Button>
