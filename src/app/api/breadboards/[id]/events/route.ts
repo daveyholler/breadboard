@@ -13,6 +13,9 @@ export async function GET(
 
   const stream = new ReadableStream({
     start(controller) {
+      // Send initial comment to flush headers immediately
+      controller.enqueue(encoder.encode(": connected\n\n"));
+
       const heartbeat = setInterval(() => {
         try {
           controller.enqueue(encoder.encode(": heartbeat\n\n"));
