@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { getBreadboard, updateBreadboard, deleteBreadboard } from "@/lib/db";
-import { broadcast } from "@/lib/broadcast";
 
 export const dynamic = "force-dynamic";
 
@@ -35,8 +34,6 @@ export async function PUT(
     places: body.places,
     name: body.name,
   });
-  const writerClientId = request.headers.get("x-client-id") || "";
-  broadcast(id, writerClientId);
   const updated = await getBreadboard(id);
   return NextResponse.json(updated);
 }
