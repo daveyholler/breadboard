@@ -5,7 +5,9 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   const breadboards = await listBreadboards();
-  return NextResponse.json(breadboards);
+  return NextResponse.json(breadboards, {
+    headers: { "Cache-Control": "no-store" },
+  });
 }
 
 export async function POST(request: Request) {

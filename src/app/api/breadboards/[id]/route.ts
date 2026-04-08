@@ -12,7 +12,9 @@ export async function GET(
   if (!breadboard) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
-  return NextResponse.json(breadboard);
+  return NextResponse.json(breadboard, {
+    headers: { "Cache-Control": "no-store" },
+  });
 }
 
 export async function DELETE(
