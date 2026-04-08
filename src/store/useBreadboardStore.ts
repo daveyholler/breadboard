@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { nanoid } from "nanoid";
 import type { Place, Position } from "@/types";
+import { CLIENT_ID, shouldSkipSave } from "@/lib/syncClient";
 
 interface BreadboardState {
   // Breadboard metadata
@@ -205,6 +206,7 @@ export function setupAutoSave(): () => void {
       state.breadboardName === prevState.breadboardName
     )
       return;
+    if (shouldSkipSave()) return;
 
     if (timeout) clearTimeout(timeout);
     timeout = setTimeout(async () => {
@@ -216,7 +218,10 @@ export function setupAutoSave(): () => void {
       try {
         await fetch(`/api/breadboards/${breadboardId}`, {
           method: "PUT",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            "X-Client-Id": CLIENT_ID,
+          },
           body: JSON.stringify({ places, name: breadboardName }),
         });
       } finally {

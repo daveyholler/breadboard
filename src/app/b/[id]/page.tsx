@@ -8,6 +8,7 @@ import {
 import { Canvas } from "@/components/Canvas";
 import { FormPanel } from "@/components/FormPanel";
 import { EditorHeader } from "@/components/EditorHeader";
+import { useRealtimeSync } from "@/hooks/useRealtimeSync";
 
 export default function BreadboardEditorPage({
   params,
@@ -18,7 +19,10 @@ export default function BreadboardEditorPage({
   const isLoaded = useBreadboardStore((s) => s.isLoaded);
   const loadBreadboard = useBreadboardStore((s) => s.loadBreadboard);
   const resetStore = useBreadboardStore((s) => s.resetStore);
+  const breadboardId = useBreadboardStore((s) => s.breadboardId);
   const [error, setError] = useState(false);
+
+  useRealtimeSync(breadboardId);
 
   useEffect(() => {
     let cleanup: (() => void) | undefined;
