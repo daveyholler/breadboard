@@ -21,7 +21,7 @@ export function EditorHeader() {
   }, []);
 
   return (
-    <header className="absolute top-0 left-0 right-0 z-20 flex items-center gap-3 px-4 py-2 bg-white/80 backdrop-blur-sm border-b border-gray-200">
+    <header className="absolute top-0 left-0 right-0 z-20 flex items-center gap-3 px-4 py-2 bg-background/80 backdrop-blur-sm border-b border-border">
       <Link
         href="/"
         className="text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -39,13 +39,16 @@ export function EditorHeader() {
       </div>
 
       <div className="flex items-center gap-2">
-        {isSaving && (
-          <span className="text-xs text-muted-foreground">Saving...</span>
-        )}
         <Button variant="outline" size="sm" onClick={handleShare}>
           {copied ? "Copied!" : "Share"}
         </Button>
       </div>
+
+      {isSaving && (
+        <span className="absolute top-12 right-4 z-30 text-xs text-muted-foreground">
+          Saving...
+        </span>
+      )}
     </header>
   );
 }

@@ -89,7 +89,7 @@ export function ConnectionLayer() {
           orient="auto"
           markerUnits="strokeWidth"
         >
-          <polygon points="0 0, 10 3.5, 0 7" fill="#6b7280" />
+          <polygon points="0 0, 10 3.5, 0 7" fill="var(--color-muted-foreground)" />
         </marker>
       </defs>
       {connections.map((conn) => (
@@ -97,7 +97,7 @@ export function ConnectionLayer() {
           key={conn.id}
           d={conn.path}
           fill="none"
-          stroke="#6b7280"
+          stroke="var(--color-muted-foreground)"
           strokeWidth="1.5"
           markerEnd="url(#arrowhead)"
         />

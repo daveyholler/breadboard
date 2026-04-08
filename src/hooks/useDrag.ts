@@ -9,6 +9,7 @@ interface UseDragOptions {
 
 export function useDrag({ onDrag, initialPosition }: UseDragOptions) {
   const isDragging = useRef(false);
+  const didDrag = useRef(false);
   const startMouse = useRef<Position>({ x: 0, y: 0 });
   const startPos = useRef<Position>(initialPosition);
 
@@ -20,6 +21,7 @@ export function useDrag({ onDrag, initialPosition }: UseDragOptions) {
       e.preventDefault();
 
       isDragging.current = true;
+      didDrag.current = false;
       startMouse.current = { x: e.clientX, y: e.clientY };
       startPos.current = { ...initialPosition };
 
@@ -31,6 +33,9 @@ export function useDrag({ onDrag, initialPosition }: UseDragOptions) {
         const zoom = useBreadboardStore.getState().zoom;
         const dx = (ev.clientX - startMouse.current.x) / zoom;
         const dy = (ev.clientY - startMouse.current.y) / zoom;
+        if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
+          didDrag.current = true;
+        }
         onDrag({
           x: startPos.current.x + dx,
           y: startPos.current.y + dy,
@@ -41,6 +46,10 @@ export function useDrag({ onDrag, initialPosition }: UseDragOptions) {
         isDragging.current = false;
         target.removeEventListener("pointermove", onPointerMove);
         target.removeEventListener("pointerup", onPointerUp);
+        // Reset after click event has fired
+        requestAnimationFrame(() => {
+          didDrag.current = false;
+        });
       };
 
       target.addEventListener("pointermove", onPointerMove);
@@ -49,5 +58,5 @@ export function useDrag({ onDrag, initialPosition }: UseDragOptions) {
     [onDrag, initialPosition]
   );
 
-  return { onPointerDown };
+  return { onPointerDown, didDrag };
 }

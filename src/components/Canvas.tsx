@@ -167,14 +167,14 @@ export function Canvas() {
   return (
     <div
       ref={canvasRef}
-      className="relative w-full h-full bg-gray-50 overflow-hidden cursor-grab active:cursor-grabbing"
+      className="relative w-full h-full bg-background overflow-hidden cursor-grab active:cursor-grabbing"
       onClick={handleCanvasClick}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
       style={{
         backgroundImage:
-          "radial-gradient(circle, #d1d5db 1px, transparent 1px)",
+          "radial-gradient(circle, var(--color-border) 1px, transparent 1px)",
         backgroundSize: `${dotSize}px ${dotSize}px`,
         backgroundPosition: `${pan.x}px ${pan.y}px`,
       }}

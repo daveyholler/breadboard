@@ -24,7 +24,7 @@ export function PlaceNode({ place }: PlaceNodeProps) {
     [movePlace, place.id]
   );
 
-  const { onPointerDown } = useDrag({
+  const { onPointerDown, didDrag } = useDrag({
     onDrag,
     initialPosition: place.position,
   });
@@ -32,18 +32,19 @@ export function PlaceNode({ place }: PlaceNodeProps) {
   const handleClick = useCallback(
     (e: React.MouseEvent) => {
       e.stopPropagation();
+      if (didDrag.current) return;
       selectPlace(place.id);
     },
-    [selectPlace, place.id]
+    [selectPlace, place.id, didDrag]
   );
 
   return (
     <div
       data-place-id={place.id}
-      className={`absolute select-none bg-white border-2 rounded-lg shadow-sm min-w-[140px] transition-[border-color,box-shadow] ${
+      className={`absolute select-none bg-card text-card-foreground border-2 rounded-lg shadow-sm min-w-[140px] transition-[border-color,box-shadow] ${
         isSelected
-          ? "border-blue-500 shadow-md"
-          : "border-gray-300 hover:border-gray-400 hover:shadow-md"
+          ? "border-ring shadow-md"
+          : "border-border hover:border-ring hover:shadow-md"
       }`}
       style={{
         left: place.position.x,
@@ -68,7 +69,7 @@ export function PlaceNode({ place }: PlaceNodeProps) {
       </div>
 
       {/* Separator */}
-      <div className="border-t border-gray-300" />
+      <div className="border-t border-border" />
 
       {/* Affordances list */}
       {place.affordances.length > 0 && (
@@ -95,7 +96,7 @@ export function PlaceNode({ place }: PlaceNodeProps) {
 
       {place.affordances.length === 0 && (
         <div
-          className="px-3 py-2 text-xs text-gray-400 italic"
+          className="px-3 py-2 text-xs text-muted-foreground italic"
           style={{ fontFamily: "var(--font-funnel-sans)" }}
         >
           No affordances
