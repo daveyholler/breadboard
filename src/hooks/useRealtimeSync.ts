@@ -28,6 +28,9 @@ export function useRealtimeSync(boardId: string | null) {
         // Skip if nothing changed
         if (data.updated_at === lastUpdatedAt.current) return;
 
+        // Skip if the user is actively editing a text field
+        if (useBreadboardStore.getState().isEditing) return;
+
         lastUpdatedAt.current = data.updated_at;
         suppressSave(1000);
         useBreadboardStore.setState({

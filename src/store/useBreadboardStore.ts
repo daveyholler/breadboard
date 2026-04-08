@@ -54,6 +54,8 @@ interface BreadboardState {
   setPendingFocus: (
     target: "place-input" | "affordance-input" | null
   ) => void;
+  isEditing: boolean;
+  setIsEditing: (editing: boolean) => void;
 }
 
 const initialState = {
@@ -65,6 +67,7 @@ const initialState = {
   selectedPlaceId: null as string | null,
   hoveredPlaceId: null as string | null,
   pendingFocus: null as "place-input" | "affordance-input" | null,
+  isEditing: false,
   zoom: 1,
   pan: { x: 0, y: 0 } as Position,
 };
@@ -193,6 +196,7 @@ export const useBreadboardStore = create<BreadboardState>((set) => ({
   selectPlace: (placeId) => set({ selectedPlaceId: placeId }),
   setHoveredPlaceId: (placeId) => set({ hoveredPlaceId: placeId }),
   setPendingFocus: (target) => set({ pendingFocus: target }),
+  setIsEditing: (editing) => set({ isEditing: editing }),
 }));
 
 // Auto-save: subscribe to store changes and debounce PUT requests

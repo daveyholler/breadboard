@@ -14,6 +14,7 @@ export function EditorHeader() {
   const updateBreadboardName = useBreadboardStore(
     (s) => s.updateBreadboardName
   );
+  const setIsEditing = useBreadboardStore((s) => s.setIsEditing);
   const isSaving = useBreadboardStore((s) => s.isSaving);
   const [copied, setCopied] = useState(false);
 
@@ -36,6 +37,8 @@ export function EditorHeader() {
         <Input
           value={breadboardName}
           onChange={(e) => updateBreadboardName(e.target.value)}
+          onFocus={() => setIsEditing(true)}
+          onBlur={() => setIsEditing(false)}
           className="max-w-xs text-center text-sm font-medium border-transparent hover:border-input focus:border-input bg-transparent"
           style={{ fontFamily: "var(--font-funnel-display)", fontWeight: 700 }}
         />

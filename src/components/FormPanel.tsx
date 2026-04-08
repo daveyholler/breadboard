@@ -36,6 +36,7 @@ export function FormPanel() {
   const selectPlace = useBreadboardStore((s) => s.selectPlace);
   const pendingFocus = useBreadboardStore((s) => s.pendingFocus);
   const setPendingFocus = useBreadboardStore((s) => s.setPendingFocus);
+  const setIsEditing = useBreadboardStore((s) => s.setIsEditing);
 
   const [newPlaceName, setNewPlaceName] = useState("");
   const [newAffordanceLabel, setNewAffordanceLabel] = useState("");
@@ -123,6 +124,8 @@ export function FormPanel() {
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       updatePlaceName(selectedPlace.id, e.target.value)
                     }
+                    onFocus={() => setIsEditing(true)}
+                    onBlur={() => setIsEditing(false)}
                     className="text-sm"
                   />
                 </Field.Root>
@@ -157,6 +160,8 @@ export function FormPanel() {
                               e.target.value
                             )
                           }
+                          onFocus={() => setIsEditing(true)}
+                          onBlur={() => setIsEditing(false)}
                           className="text-sm h-8"
                         />
                       </Field.Root>
